@@ -1,13 +1,30 @@
+"use client";
+
 import React from "react";
 import FeedbackCard from "./FeedbackCard";
+import { motion } from "framer-motion";
 
 const Feedback = () => {
   return (
-    <div className="py-10 px-5">
+    <motion.div
+      className="py-10 px-5"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1.2 }}
+      viewport={{ once: true }}
+    >
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between">
+        <motion.div
+          className="flex flex-col md:flex-row justify-between gap-5 md:gap-0"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2 }}
+          viewport={{ once: true }}
+        >
           <div>
-            <h1 className="text-4xl font-bold">What Our Student Say</h1>
+            <h1 className="text-2xl md:text-4xl font-bold">
+              What Our Student Say
+            </h1>
             <p className="mt-4">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
@@ -24,17 +41,21 @@ const Feedback = () => {
               Submit
             </button>
           </div>
-        </div>
+        </motion.div>
 
-
-<div className="grid grid-cols-3 gap-6">
-<FeedbackCard/>
-<FeedbackCard/>
-<FeedbackCard/>
-</div>
-
+        <motion.div
+          className="md:grid grid-cols-3 gap-6"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delayChildren: 0.2, staggerChildren: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <FeedbackCard />
+          <FeedbackCard />
+          <FeedbackCard />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
