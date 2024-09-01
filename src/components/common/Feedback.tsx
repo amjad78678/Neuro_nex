@@ -29,7 +29,7 @@ const Feedback = () => {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
           </div>
-          <div className="flex gap-1 md:gap-3">
+          <div className="flex flex-col md:flex-row gap-1 md:gap-3">
             <input
               className="px-4 py-2 border border-black mt-auto rounded-md"
               placeholder="Enter your reviews"
