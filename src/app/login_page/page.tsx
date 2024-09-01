@@ -18,7 +18,7 @@ const page = () => {
         <div>
           <div className="flex gap-10 justify-center">
             <div
-              onClick={() => router.push("/student_login")}
+              onClick={() => router.push("/student/login")}
               className="border border-gray-400 rounded-2xl shadow-2xl p-5 flex flex-col gap-4 overflow-hidden cursor-pointer"
             >
               <Image
@@ -33,7 +33,7 @@ const page = () => {
               </h1>
             </div>
             <div
-              onClick={() => router.push("/teacher_login")}
+              onClick={() => router.push("/teacher/login")}
               className="border border-gray-400 rounded-2xl shadow-2xl p-5 flex flex-col gap-4 cursor-pointer"
             >
               <Image

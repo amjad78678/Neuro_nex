@@ -1,6 +1,7 @@
+import Link from "next/link";
 import React from "react";
 
-const page = () => {
+const LoginComponent = () => {
   return (
     <div className="w-full flex justify-center items-center min-h-screen py-10">
       <div className="border border-gray-400 rounded-2xl shadow-xl p-14">
@@ -13,15 +14,15 @@ const page = () => {
           </div>
           <div className="flex flex-col gap-6">
             <input
-              className="w-[40vw] border border-black rounded-lg px-6 py-2"
+              className=" border border-black rounded-lg px-6 py-2"
               type="text"
               placeholder="Enter your email here..."
               name=""
               id=""
             />
             <input
-              className="w-[40vw] border border-black rounded-lg px-6 py-2"
-              type="text"
+              className="border border-black rounded-lg px-6 py-2"
+              type="password"
               placeholder="Enter your password here..."
               name=""
               id=""
@@ -32,9 +33,18 @@ const page = () => {
           </div>
           <div>
             <p className="text-center">
-              By continue, you agree to our Terms and condition and Privacy
-              Policy{" "}
+              By continuing, you agree to our Terms and Conditions and Privacy
+              Policy
             </p>
+          </div>
+          <div className="text-center">
+            <p>Don't have an account?</p>
+            <Link
+              href="/teacher/signup"
+              className="text-blue-600 hover:underline"
+            >
+              Sign up here
+            </Link>
           </div>
         </div>
       </div>
@@ -42,4 +52,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default LoginComponent;

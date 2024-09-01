@@ -24,7 +24,7 @@ const HomeBanner = () => {
         </div>
       </div>
       <div className="relative w-full h-screen">
-        <Image className="" src="/image.png" alt="" fill />
+        <Image className="" src="/girlRead.png" alt="" fill />
       </div>
     </div>
   );
