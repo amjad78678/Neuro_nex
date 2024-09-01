@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -5,7 +7,10 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+
 const Navbar = () => {
+  const router = useRouter();
   return (
     <div>
       <div className="w-full ">
@@ -16,7 +21,10 @@ const Navbar = () => {
           <FaLinkedin className="text-3xl" />
         </div>
         <div className="flex justify-between gap-5 px-14 py-5 border border-black">
-          <div className="flex gap-2 items-center">
+          <div
+            onClick={() => router.push("/")}
+            className="flex gap-2 items-center cursor-pointer"
+          >
             <Image src={"/logo.png"} alt="" width={40} height={40} />
             <h1 className="text-3xl font-bold">NeuroNex</h1>
           </div>

@@ -9,10 +9,12 @@ const Footer = () => {
   return (
     <div className="p-10">
       <div className="flex flex-col items-center">
-        <h1 className="text-start font-bold">Subscribe to our newsletter</h1>
-        <p className="text-start">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
+        <div>
+          <h1 className="font-bold">Subscribe to our newsletter</h1>
+          <p className="">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-4 gap-6 pt-20 border-b-2 border-slate-800 pb-10">
