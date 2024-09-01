@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const Feedback = () => {
   return (
     <motion.div
-      className="py-10 px-5"
+      className="py-10 px-5 md:px-10"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.2 }}
@@ -29,7 +29,7 @@ const Feedback = () => {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-1 md:gap-3">
             <input
               className="px-4 py-2 border border-black mt-auto rounded-md"
               placeholder="Enter your reviews"
@@ -47,7 +47,11 @@ const Feedback = () => {
           className="md:grid grid-cols-3 gap-6"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delayChildren: 0.2, staggerChildren: 0.2 }}
+          transition={{
+            duration: 1.2,
+            delayChildren: 0.2,
+            staggerChildren: 0.2,
+          }}
           viewport={{ once: true }}
         >
           <FeedbackCard />

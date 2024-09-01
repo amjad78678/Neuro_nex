@@ -37,18 +37,18 @@ const Navbar = () => {
             <h1 className="text-2xl md:text-3xl font-bold">NeuroNex</h1>
           </div>
           <div className="hidden md:flex gap-4 items-center">
-            <div className="relative">
-              <h1 className="font-semibold">Home</h1>
+            <div onClick={() => router.push("/")} className="relative">
+              <h1 className="font-semibold cursor-pointer">Home</h1>
               <div className="absolute h-0.5 w-full bg-black"></div>
             </div>
             <div className="relative">
-              <h1 className="font-semibold">About Us</h1>
+              <h1 className="font-semibold cursor-pointer">About Us</h1>
             </div>
             <div className="relative">
-              <h1 className="font-semibold">Courses</h1>
+              <h1 className="font-semibold cursor-pointer">Courses</h1>
             </div>
             <div className="relative">
-              <h1 className="font-semibold">Contact</h1>
+              <h1 className="font-semibold cursor-pointer">Contact</h1>
             </div>
           </div>
           <div className="hidden md:block my-auto">
@@ -84,16 +84,16 @@ const Navbar = () => {
           </div>
           <div className="flex flex-col items-start gap-4 mt-10">
             <Link href="/" onClick={toggleMenu}>
-              <h1 className="text-3xl font-semibold">Home</h1>
+              <h1 className="text-3xl font-semibold cursor-pointer">Home</h1>
             </Link>
             <Link href="/about" onClick={toggleMenu}>
-              <h1 className="text-3xl font-semibold">About Us</h1>
+              <h1 className="text-3xl font-semibold cursor-pointer">About Us</h1>
             </Link>
             <Link href="/courses" onClick={toggleMenu}>
-              <h1 className="text-3xl font-semibold">Courses</h1>
+              <h1 className="text-3xl font-semibold cursor-pointer">Courses</h1>
             </Link>
             <Link href="/contact" onClick={toggleMenu}>
-              <h1 className="text-3xl font-semibold">Contact</h1>
+              <h1 className="text-3xl font-semibold cursor-pointer">Contact</h1>
             </Link>
             <Link href="/login_page" onClick={toggleMenu}>
               <button className="bg-black text-white px-6 py-2  rounded-lg mt-4">

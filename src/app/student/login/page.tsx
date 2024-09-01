@@ -13,14 +13,14 @@ const page = () => {
           </div>
           <div className="flex flex-col gap-6">
             <input
-              className="w-[40vw] border border-black rounded-lg px-6 py-2"
+              className=" border border-black rounded-lg px-6 py-2"
               type="text"
               placeholder="Enter your email here..."
               name=""
               id=""
             />
             <input
-              className="w-[40vw] border border-black rounded-lg px-6 py-2"
+              className=" border border-black rounded-lg px-6 py-2"
               type="text"
               placeholder="Enter your password here..."
               name=""

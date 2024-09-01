@@ -8,10 +8,12 @@ const page = () => {
   const router = useRouter();
   return (
     <div className="w-full flex justify-center items-center min-h-screen">
-      <div className="border border-gray-400 rounded-2xl shadow-xl flex flex-col gap-10 min-h-[80vh] px-20 py-20 my-5">
+      <div className="border border-gray-400 rounded-2xl shadow-xl flex flex-col gap-10 md:min-h-[80vh] p-5 md:px-20 md:py-20 my-5">
         <div>
-          <h1 className="text-5xl font-bold text-center ">Continue as a</h1>
-          <h2 className="text-3xl text-center font-semibold mt-4">
+          <h1 className="text-3xl md:text-5xl font-bold text-center ">
+            Continue as a
+          </h1>
+          <h2 className="text-xl md:text-3xl text-center font-semibold mt-4">
             We will personalise your experience accordingly
           </h2>
         </div>

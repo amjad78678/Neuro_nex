@@ -12,7 +12,6 @@ export default function Home() {
   return (
     <div>
       <HomeBanner />
-      
       <motion.div
         className="h-[30vh] bg-[#F7F7F7] flex justify-center items-center"
         initial={{ opacity: 0 }}
@@ -32,7 +31,7 @@ export default function Home() {
         transition={{ duration: 1.2 }}
         viewport={{ once: true }}
       >
-        <div className="p-5 flex flex-col gap-7">
+        <div className="flex flex-col gap-10 my-auto">
           <h1 className="text-2xl md:text-3xl font-bold">
             Discover a wide range of courses covering a variety of subjects,
             taught by expert instructors.
@@ -50,13 +49,13 @@ export default function Home() {
             Explore Courses
           </button>
         </div>
-        <div className="p-5">
+        <div className="mx-auto">
           <Image src="/girlImage.png" alt="girl" width={500} height={500} />
         </div>
       </motion.div>
 
       <motion.div
-        className="p-10 flex flex-col gap-4"
+        className="p-5 md:p-10 flex flex-col gap-4"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1.2 }}
@@ -108,7 +107,7 @@ export default function Home() {
       <Feedback />
 
       <motion.div
-        className="flex justify-between p-5 items-center"
+        className="flex justify-between p-5 md:px-10 items-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1.2 }}
