@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const HomeBanner = () => {
   return (
-    <motion.div
+    <motion.div 
       className="grid md:grid-cols-2"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

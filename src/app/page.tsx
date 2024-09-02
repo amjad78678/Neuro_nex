@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import HomeBanner from "@/components/common/HomeBanner";
-import EventCard from "@/components/common/EventCard";
-import Feedback from "@/components/common/Feedback";
+import HomeBanner from "@/components/Home/HomeBanner";
+import EventCard from "@/components/Home/EventCard";
+import Feedback from "@/components/Home/Feedback";
 import { FaRegArrowAltCircleRight } from "react-icons/fa";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { motion } from "framer-motion";

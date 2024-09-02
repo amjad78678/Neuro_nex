@@ -1,8 +1,7 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
@@ -10,9 +9,22 @@ import { FaLinkedin } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { RiMenu2Fill } from "react-icons/ri";
 import { motion } from "framer-motion";
+import { getSession } from "@/config/actions";
+import { SessionData } from "@/config/sessionConfig";
 
 const Navbar = () => {
-  const router = useRouter();
+  const [session, setSession] = useState<SessionData | null>(null);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const sessionData = await getSession();
+      setSession(sessionData);
+    };
+    fetchSession();
+  }, []);
+
+  const router = useRouter();   
+  console.log("iam session");
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -87,7 +99,9 @@ const Navbar = () => {
               <h1 className="text-3xl font-semibold cursor-pointer">Home</h1>
             </Link>
             <Link href="/about" onClick={toggleMenu}>
-              <h1 className="text-3xl font-semibold cursor-pointer">About Us</h1>
+              <h1 className="text-3xl font-semibold cursor-pointer">
+                About Us
+              </h1>
             </Link>
             <Link href="/courses" onClick={toggleMenu}>
               <h1 className="text-3xl font-semibold cursor-pointer">Courses</h1>
@@ -95,11 +109,13 @@ const Navbar = () => {
             <Link href="/contact" onClick={toggleMenu}>
               <h1 className="text-3xl font-semibold cursor-pointer">Contact</h1>
             </Link>
-            <Link href="/login_page" onClick={toggleMenu}>
-              <button className="bg-black text-white px-6 py-2  rounded-lg mt-4">
-                Login
-              </button>
-            </Link>
+            {session && !session.isLoggedIn && (
+              <Link href="/login_page" onClick={toggleMenu}>
+                <button className="bg-black text-white px-6 py-2  rounded-lg mt-4">
+                  Login
+                </button>
+              </Link>
+            )}
           </div>
         </motion.div>
       )}
