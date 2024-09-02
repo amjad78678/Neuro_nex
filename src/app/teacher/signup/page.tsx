@@ -1,13 +1,57 @@
 "use client";
-import Otp from "@/components/common/Otp";
+
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import Otp from "@/components/Common/Otp";
 
-const page = () => {
+const SignupSchema = Yup.object().shape({
+  username: Yup.string().required("Username is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), undefined], "Passwords must match")
+    .required("Confirm Password is required"),
+});
+
+interface SignupFormValues {
+  username: string;
+  email: string;
+  password: string;
+}
+
+const SignupPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDialog = () => {
     setIsOpen(!isOpen);
   };
+
+  const { mutate, status, error } = useMutation({
+    mutationFn: async (values: SignupFormValues) => {
+      try {
+        const res = await axios.post("/api/teacher/signup", values);
+        console.log("Axios response:", res); // Check if this logs
+        return res;
+      } catch (err) {
+        console.log("Axios error:", err); // Log any errors
+        throw err;
+      }
+    },
+    onSuccess: (res) => {
+      console.log("iam res", res);
+      if (res && res.data.success) {
+        setIsOpen(true);
+      }
+    },
+    onError: (error) => {
+      console.log("Error signing up", error);
+    },
+  });
 
   return (
     <>
@@ -20,46 +64,90 @@ const page = () => {
                 Your credential
               </h2>
             </div>
-            <div className="flex flex-col gap-6">
-              <input
-                className=" border border-black rounded-lg px-6 py-2"
-                type="text"
-                placeholder="Enter your username here..."
-                name=""
-                id=""
-              />
-              <input
-                className=" border border-black rounded-lg px-6 py-2"
-                type="text"
-                placeholder="Enter your email here..."
-                name=""
-                id=""
-              />
-              <input
-                className=" border border-black rounded-lg px-6 py-2"
-                type="text"
-                placeholder="Enter your password here..."
-                name=""
-                id=""
-              />
-              <input
-                className=" border border-black rounded-lg px-6 py-2"
-                type="text"
-                placeholder="Enter your confirm password here..."
-                name=""
-                id=""
-              />
-              <button className="bg-black text-white px-5 py-2 rounded-lg">
-                Create
-              </button>
-            </div>
+            <Formik
+              initialValues={{
+                username: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+              }}
+              validationSchema={SignupSchema}
+              onSubmit={(values, { setSubmitting }) => {
+                console.log("iam values", values);
+                mutate(values);
+                setSubmitting(false);
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form className="flex flex-col gap-6">
+                  <div>
+                    <Field
+                      className="border border-black rounded-lg px-6 py-2 w-full"
+                      type="text"
+                      name="username"
+                      placeholder="Enter your username here..."
+                    />
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className="text-red-600"
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      className="border border-black rounded-lg px-6 py-2 w-full"
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email here..."
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-600"
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      className="border border-black rounded-lg px-6 py-2 w-full"
+                      type="password"
+                      name="password"
+                      placeholder="Enter your password here..."
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="text-red-600"
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      className="border border-black rounded-lg px-6 py-2 w-full"
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Enter your confirm password here..."
+                    />
+                    <ErrorMessage
+                      name="confirmPassword"
+                      component="div"
+                      className="text-red-600"
+                    />
+                  </div>
+                  <button
+                    className="bg-black text-white px-5 py-2 rounded-lg"
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Create"}
+                  </button>
+                </Form>
+              )}
+            </Formik>
             <div>
               <p className="text-center">
-                By continue, you agree to our Terms and condition and Privacy
-                Policy{" "}
+                By continuing, you agree to our Terms and conditions and Privacy
+                Policy.
               </p>
             </div>
-
             <div className="text-center">
               <p>Already have an account?</p>
               <Link
@@ -77,4 +165,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SignupPage;

@@ -1,10 +1,11 @@
 "use client";
-
 import React from "react";
 import FeedbackCard from "./FeedbackCard";
 import { motion } from "framer-motion";
 
 const Feedback = () => {
+
+  
   return (
     <motion.div
       className="py-10 px-5 md:px-10"

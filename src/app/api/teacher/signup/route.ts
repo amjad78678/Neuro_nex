@@ -1,5 +1,7 @@
+import connectDb from "@/config/connectDb";
+connectDb();
 import { getSession } from "@/config/actions";
-import { SessionData } from "@/config/sessionConfig";
+import User from "@/models/userModel";
 import EmailService from "@/services/emailService";
 import GenerateOtp from "@/services/generateOtp";
 import { NextRequest, NextResponse } from "next/server";
@@ -8,7 +10,25 @@ const emailService = new EmailService();
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.log("iam body", body);
+    console.log("iam body------------", body);
+
+    const existUser = await User.findOne({ email: body.email });
+    if (existUser) {
+      return NextResponse.json(
+        { success: false, message: "User already exist" },
+        { status: 400 }
+      );
+    }
+
+    if (body.password !== body.confirmPassword) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Password and Confirm Password does not match",
+        },
+        { status: 400 }
+      );
+    }
 
     const otp = await GenerateOtp();
     const obj = {
@@ -51,10 +71,11 @@ export async function POST(req: NextRequest) {
     // Use session to store OTP and email
     const session = await getSession();
     session.otp = otp;
+    session.user = body;
     await session.save();
 
     setTimeout(async () => {
-      session.otp = await GenerateOtp(); 
+      session.otp = await GenerateOtp();
       await session.save();
     }, 2 * 60000);
 
