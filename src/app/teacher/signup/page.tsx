@@ -31,14 +31,14 @@ const SignupPage = () => {
     setIsOpen(!isOpen);
   };
 
-  const { mutate, status, error } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationFn: async (values: SignupFormValues) => {
       try {
         const res = await axios.post("/api/teacher/signup", values);
-        console.log("Axios response:", res); // Check if this logs
+        console.log("Axios response:", res); 
         return res;
       } catch (err) {
-        console.log("Axios error:", err); // Log any errors
+        console.log("Axios error:", err); 
         throw err;
       }
     },
@@ -133,11 +133,15 @@ const SignupPage = () => {
                     />
                   </div>
                   <button
-                    className="bg-black text-white px-5 py-2 rounded-lg"
+                    className={`${
+                      isPending
+                        ? "cursor-not-allowed opacity-50 bg-black"
+                        : "bg-black"
+                    } text-white px-5 py-2 rounded-lg`}
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isPending}
                   >
-                    {isSubmitting ? "Submitting..." : "Create"}
+                    {isPending ? "Submitting..." : "Create"}
                   </button>
                 </Form>
               )}

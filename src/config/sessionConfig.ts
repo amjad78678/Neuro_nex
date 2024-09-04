@@ -1,10 +1,10 @@
 import { SessionOptions } from "iron-session";
 
 export interface User {
-  username?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 export interface SessionData {
   user?: User;

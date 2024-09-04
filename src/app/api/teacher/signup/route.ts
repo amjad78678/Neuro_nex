@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
       session.otp = await GenerateOtp();
       await session.save();
     }, 2 * 60000);
-
+ 
     console.log("Session Data:", session);
     emailService.sendEmail(obj);
     return NextResponse.json({ success: true, otp }, { status: 200 });

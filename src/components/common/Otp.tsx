@@ -12,15 +12,58 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
-const Otp = ({isOpen, closeDialog}: {isOpen: boolean, closeDialog: () => void}) => {
+const Otp = ({
+  isOpen,
+  closeDialog,
+}: {
+  isOpen: boolean;
+  closeDialog: () => void;
+}) => {
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const [otp, setOtp] = useState(Array(6).fill(""));
+  const router = useRouter();
+  console.log("iam otp", otp);
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: async () => {25
+      try {
+        console.log("before giveing clicked mutate");
+        const res = await axios.post("/api/teacher/verifyOtp", {
+          otp: Number(otp.join("")),
+        });
+        console.log("Axios response:", res);
+        return res;
+      } catch (err) {
+        console.log("Axios error:", err);
+        throw err;
+      }
+    },
+    onSuccess: (res) => {
+      console.log("iam res", res);
+
+      if (res && res.data.success) {
+        console.log("Success! Navigating to login page...");
+        router.push("/teacher/login");
+        closeDialog();
+      }
+    },
+    onError: (error) => {
+      console.log("Error signing up", error);
+    },
+  });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     const { value } = e.target;
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
     if (!isNaN(Number(value)) && value.length === 1) {
       if (index < inputRefs.current.length - 1) {
         inputRefs.current[index + 1]?.focus();
@@ -68,11 +111,13 @@ const Otp = ({isOpen, closeDialog}: {isOpen: boolean, closeDialog: () => void}) 
             </div>
           </DialogDescription>
           <DialogFooter>
-            <DialogClose asChild>
-              <Button className="mx-auto mt-6" onClick={closeDialog}>
-                Submit
-              </Button>
-            </DialogClose>
+            <Button
+              disabled={isPending}
+              className={`${isPending && "cursor-not-allowed"} mx-auto mt-6`}
+              onClick={() => mutate()}
+            >
+              {isPending ? "Verifying..." : "Verify"}
+            </Button>
           </DialogFooter>
         </DialogHeader>
       </DialogContent>
