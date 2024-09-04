@@ -22,16 +22,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { confirmPassword, password, ...rest } = session.user;
-    const encryptedPassword =await bcryptjs.hash(session?.user?.password, 10);
-    console.log("iam rest", rest);
-    const obj = { ...rest, password: encryptedPassword };
-    console.log('iam obj',obj,'encdifsifisdyf',encryptedPassword)
-    const userData = new User(obj);
+    const { confirmPassword, ...rest } = session.user;
+    const userData = new User(rest);
     console.log("iam userData", userData);
     await userData.save();
 
     session.otp = undefined;
+    session.user = undefined;
     await session.save();
     return NextResponse.json(
       { success: true, message: "OTP validated successfully" },

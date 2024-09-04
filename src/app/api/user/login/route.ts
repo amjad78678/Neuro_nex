@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    
     const accessToken = jwt.sign(
       { userId: user.id, email: user.email },
       process.env.ACCESS_TOKEN_SECRET!,
@@ -44,7 +45,6 @@ export async function POST(req: NextRequest) {
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
-
     return response;
   } catch (error) {
     console.error("Login error:", error);

@@ -11,10 +11,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import SubmitButton from "./SubmitButton";
+import { handleError } from "@/app/utils/handleError";
 
 const Otp = ({
   isOpen,
@@ -28,22 +29,23 @@ const Otp = ({
   const router = useRouter();
   console.log("iam otp", otp);
   const { mutate, isPending, error } = useMutation({
-    mutationFn: async () => {25
+    mutationFn: async () => {
       try {
         console.log("before giveing clicked mutate");
+        if (otp.length !== 6) {
+          throw new Error("Invalid OTP");
+        }
         const res = await axios.post("/api/teacher/verifyOtp", {
           otp: Number(otp.join("")),
         });
         console.log("Axios response:", res);
         return res;
       } catch (err) {
-        console.log("Axios error:", err);
         throw err;
       }
     },
     onSuccess: (res) => {
       console.log("iam res", res);
-
       if (res && res.data.success) {
         console.log("Success! Navigating to login page...");
         router.push("/teacher/login");
@@ -51,7 +53,7 @@ const Otp = ({
       }
     },
     onError: (error) => {
-      console.log("Error signing up", error);
+      handleError(error);
     },
   });
 
@@ -111,13 +113,16 @@ const Otp = ({
             </div>
           </DialogDescription>
           <DialogFooter>
-            <Button
-              disabled={isPending}
-              className={`${isPending && "cursor-not-allowed"} mx-auto mt-6`}
-              onClick={() => mutate()}
-            >
-              {isPending ? "Verifying..." : "Verify"}
-            </Button>
+            <SubmitButton
+              {...{
+                isPending,
+                text: "Verify",
+                texting: "Verifying...",
+                type: "button",
+                onClick: () => mutate(),
+                className: "mt-6",
+              }}
+            />
           </DialogFooter>
         </DialogHeader>
       </DialogContent>

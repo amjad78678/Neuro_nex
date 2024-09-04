@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Otp from "@/components/Common/Otp";
+import { handleError } from "@/app/utils/handleError";
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -35,10 +36,10 @@ const SignupPage = () => {
     mutationFn: async (values: SignupFormValues) => {
       try {
         const res = await axios.post("/api/teacher/signup", values);
-        console.log("Axios response:", res); 
+        console.log("Axios response:", res);
         return res;
       } catch (err) {
-        console.log("Axios error:", err); 
+        console.log("Axios error:", err);
         throw err;
       }
     },
@@ -49,7 +50,7 @@ const SignupPage = () => {
       }
     },
     onError: (error) => {
-      console.log("Error signing up", error);
+      handleError(error);
     },
   });
 
