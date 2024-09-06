@@ -42,9 +42,7 @@ export default function Home() {
             viverra ornare, eros dolor interdum nulla, ut commodo diam libero
             vitae erat.
           </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           <button className="bg-black text-white px-5 py-3 rounded-lg w-44">
             Explore Courses
           </button>
@@ -88,8 +86,12 @@ export default function Home() {
               image: "/analysis.png",
             }}
           />
-          <EventCard {...{ title: "Art", name: "Art Day", image: "/paint.png" }} />
-          <EventCard {...{ title: "Law", name: "Rule of Law", image: "/law.png" }} />
+          <EventCard
+            {...{ title: "Art", name: "Art Day", image: "/paint.png" }}
+          />
+          <EventCard
+            {...{ title: "Law", name: "Rule of Law", image: "/law.png" }}
+          />
           <EventCard
             {...{
               title: "Tech",

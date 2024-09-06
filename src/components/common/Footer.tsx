@@ -8,15 +8,6 @@ import { FaLinkedin } from "react-icons/fa";
 const Footer = () => {
   return (
     <div className="p-10">
-      <div className="flex flex-col items-center">
-        <div>
-          <h1 className="font-bold">Subscribe to our newsletter</h1>
-          <p className="">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
-        </div>
-      </div>
-
       <div className="grid md:grid-cols-4 gap-6 pt-20 border-b-2 border-slate-800 pb-10">
         <div>
           <div className="flex gap-2 items-center md:justify-start justify-center">

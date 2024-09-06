@@ -39,7 +39,7 @@ const LoginComponent = () => {
       console.log("iam res", res);
       if (res && res.data.success) {
         localStorage.setItem("teacherToken", res.data.accessToken);
-        router.push("/teacher/dashboard");
+        router.push("/teacher");
       }
     },
     onError: (error) => {
