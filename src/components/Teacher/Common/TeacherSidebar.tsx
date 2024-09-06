@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   FiVideo,
@@ -11,20 +12,22 @@ import {
 } from "react-icons/fi";
 
 const TeacherSidebar = () => {
-  // Manage the active state for the selected menu item
   const [activeItem, setActiveItem] = useState("Dashboard");
-
+  const router = useRouter();
   const menuItems = [
-    { label: "Dashboard", icon: FiHome },
-    { label: "Manage Courses", icon: FiBookOpen },
-    { label: "Messages", icon: FiMessageSquare },
-    { label: "Analytics", icon: FiBarChart2 },
+    { label: "Dashboard", icon: FiHome, link: "/teacher" },
+    {
+      label: "Manage Courses",
+      icon: FiBookOpen,
+      link: "/teacher/manage_courses",
+    },
+    { label: "Messages", icon: FiMessageSquare, link: "/teacher/messages" },
+    { label: "Analytics", icon: FiBarChart2, link: "/teacher/analytics" },
   ];
 
-  // Framer Motion animation variants for active and inactive items
   const itemVariants = {
     active: {
-      backgroundColor: "#60A5FA", // Tailwind blue-400
+      backgroundColor: "#60A5FA",
       color: "#ffffff",
       scale: 1.05,
       transition: {
@@ -47,11 +50,7 @@ const TeacherSidebar = () => {
 
   return (
     <motion.div className="h-screen p-2 text-black ">
-      <div className="flex justify-between items-center mb-10">
-        <h1 className="text-xl font-bold">Teacher Panel</h1>
-      </div>
-
-      <div className="flex flex-col justify-between h-[85vh]">
+      <div className="flex flex-col justify-between h-full">
         <ul className="space-y-4">
           {menuItems.map((item) => (
             <motion.li
@@ -60,7 +59,10 @@ const TeacherSidebar = () => {
               initial={false}
               animate={activeItem === item.label ? "active" : "inactive"}
               variants={itemVariants}
-              onClick={() => setActiveItem(item.label)}
+              onClick={() => {
+                setActiveItem(item.label);
+                router.push(item.link);
+              }}
             >
               <item.icon className="text-xl" />
               <span>{item.label}</span>
