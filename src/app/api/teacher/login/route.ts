@@ -41,8 +41,12 @@ export async function POST(req: NextRequest) {
     { $set: { refreshToken: refreshToken } }
   );
 
+  const teacherDetails = {
+    accessToken,
+    username: user.username,
+  };
   const response = NextResponse.json(
-    { success: true, accessToken },
+    { success: true, message: "Logged in successfully", teacherDetails },
     {
       status: 200,
     }

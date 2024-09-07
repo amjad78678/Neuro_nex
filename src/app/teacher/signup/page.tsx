@@ -3,11 +3,14 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Otp from "@/components/Common/Otp";
 import { handleError } from "@/app/utils/handleError";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { useRouter } from "next/navigation";
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -28,6 +31,9 @@ interface SignupFormValues {
 
 const SignupPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const { teacherDetails } = useSelector((state: RootState) => state.auth);
+
   const closeDialog = () => {
     setIsOpen(!isOpen);
   };
@@ -53,6 +59,12 @@ const SignupPage = () => {
       handleError(error);
     },
   });
+
+  useEffect(() => {
+    if (teacherDetails) {
+      router.push("/teacher");
+    }
+  }, []);
 
   return (
     <>

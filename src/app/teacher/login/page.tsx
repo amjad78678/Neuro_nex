@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
@@ -8,6 +8,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/components/Common/SubmitButton";
 import { handleError } from "@/app/utils/handleError";
+import { useDispatch, useSelector } from "react-redux";
+import { setTeacherDetails } from "@/store/slices/authSlice";
+import { RootState } from "@/store/store";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -23,7 +26,8 @@ interface LoginFormValues {
 }
 const LoginComponent = () => {
   const router = useRouter();
-
+  const dispatch = useDispatch();
+  const { teacherDetails } = useSelector((state: RootState) => state.auth);
   const { mutate, isPending, error } = useMutation({
     mutationFn: async (values: LoginFormValues) => {
       try {
@@ -38,7 +42,7 @@ const LoginComponent = () => {
     onSuccess: (res) => {
       console.log("iam res", res);
       if (res && res.data.success) {
-        localStorage.setItem("teacherToken", res.data.accessToken);
+        dispatch(setTeacherDetails(res.data.teacherDetails));
         router.push("/teacher");
       }
     },
@@ -46,6 +50,12 @@ const LoginComponent = () => {
       handleError(error);
     },
   });
+
+  useEffect(() => {
+    if (teacherDetails) {
+      router.push("/teacher");
+    }
+  }, []);
 
   return (
     <div className="w-full flex justify-center items-center min-h-screen py-10">

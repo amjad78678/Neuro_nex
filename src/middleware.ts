@@ -8,6 +8,7 @@ export function middleware(req: NextRequest) {
   if (
     path === "/api/teacher/login" ||
     path === "/api/teacher/signup" ||
+    path === "/api/teacher/verifyOtp" ||
     path === "/api/teacher/logout"
   ) {
     return NextResponse.next();

@@ -1,12 +1,17 @@
+import { getSession } from "@/config/actions";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
-  const response = NextResponse.json({ message: "Logged out successfully" });
+export async function POST(req: NextRequest) {
+  const session = await getSession();
+  await session.destroy();
+  await session.save();
+  const response = NextResponse.json({
+    success: true,
+    message: "Logged out successfully",
+  });
   response.cookies.set("teacherRefreshToken", "", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: -1,
+    maxAge: 0,
   });
   return response;
 }

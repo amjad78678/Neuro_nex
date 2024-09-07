@@ -2,10 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaFacebookF } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { RiMenu2Fill } from "react-icons/ri";
 import { motion } from "framer-motion";
@@ -14,6 +11,7 @@ import { SessionData } from "@/config/sessionConfig";
 
 const Navbar = () => {
   const [session, setSession] = useState<SessionData | null>(null);
+  const [activeNavItem, setActiveNavItem] = useState<string>("home"); // Track active nav item
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -23,17 +21,21 @@ const Navbar = () => {
     fetchSession();
   }, []);
 
-  const router = useRouter();   
-  console.log("iam session");
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleNavClick = (item: string, route: string) => {
+    setActiveNavItem(item);
+    router.push(route);
+  };
+
   return (
     <div>
-      <div className="w-full ">
+      <div className="w-full">
         <div className="flex gap-5 px-14 py-5 justify-end border border-black">
           <FaFacebookF className="text-3xl" />
           <FaInstagram className="text-3xl" />
@@ -42,27 +44,62 @@ const Navbar = () => {
         </div>
         <div className="flex justify-between gap-5 px-5 md:px-14 py-5 border border-black">
           <div
-            onClick={() => router.push("/")}
+            onClick={() => handleNavClick("home", "/")}
             className="flex gap-2 items-center cursor-pointer"
           >
-            <Image src={"/logo.png"} alt="" width={40} height={40} />
+            <Image src={"/logo.png"} alt="Logo" width={40} height={40} />
             <h1 className="text-2xl md:text-3xl font-bold">NeuroNex</h1>
           </div>
+
+          {/* Desktop Navbar */}
           <div className="hidden md:flex gap-4 items-center">
-            <div onClick={() => router.push("/")} className="relative">
-              <h1 className="font-semibold cursor-pointer">Home</h1>
-              <div className="absolute h-0.5 w-full bg-black"></div>
+            <div className="relative">
+              <h1
+                className={`font-semibold cursor-pointer ${activeNavItem === "home" ? "text-black" : "text-gray-500"}`}
+                onClick={() => handleNavClick("home", "/")}
+              >
+                Home
+              </h1>
+              {activeNavItem === "home" && (
+                <div className="absolute bottom-[-6px] h-0.5 w-full bg-black"></div>
+              )}
             </div>
             <div className="relative">
-              <h1 className="font-semibold cursor-pointer">About Us</h1>
+              <h1
+                className={`font-semibold cursor-pointer ${activeNavItem === "courses" ? "text-black" : "text-gray-500"}`}
+                onClick={() => handleNavClick("courses", "/courses")}
+              >
+                Courses
+              </h1>
+              {activeNavItem === "courses" && (
+                <div className="absolute bottom-[-6px] h-0.5 w-full bg-black"></div>
+              )}
             </div>
             <div className="relative">
-              <h1 className="font-semibold cursor-pointer">Courses</h1>
+              <h1
+                className={`font-semibold cursor-pointer ${activeNavItem === "about" ? "text-black" : "text-gray-500"}`}
+                onClick={() => handleNavClick("about", "/about_us")}
+              >
+                About Us
+              </h1>
+              {activeNavItem === "about" && (
+                <div className="absolute bottom-[-6px] h-0.5 w-full bg-black"></div>
+              )}
             </div>
             <div className="relative">
-              <h1 className="font-semibold cursor-pointer">Contact</h1>
+              <h1
+                className={`font-semibold cursor-pointer ${activeNavItem === "contact" ? "text-black" : "text-gray-500"}`}
+                onClick={() => handleNavClick("contact", "/contact_us")}
+              >
+                Contact
+              </h1>
+              {activeNavItem === "contact" && (
+                <div className="absolute bottom-[-6px] h-0.5 w-full bg-black"></div>
+              )}
             </div>
           </div>
+
+          {/* Login Button */}
           <div className="hidden md:block my-auto">
             <Link href="/login_page">
               <button className="bg-black text-white px-5 py-2 rounded-lg">
@@ -70,6 +107,8 @@ const Navbar = () => {
               </button>
             </Link>
           </div>
+
+          {/* Mobile Menu Icon */}
           <div className="md:hidden">
             <RiMenu2Fill
               className="text-3xl cursor-pointer"
@@ -98,20 +137,18 @@ const Navbar = () => {
             <Link href="/" onClick={toggleMenu}>
               <h1 className="text-3xl font-semibold cursor-pointer">Home</h1>
             </Link>
-            <Link href="/about" onClick={toggleMenu}>
-              <h1 className="text-3xl font-semibold cursor-pointer">
-                About Us
-              </h1>
-            </Link>
             <Link href="/courses" onClick={toggleMenu}>
               <h1 className="text-3xl font-semibold cursor-pointer">Courses</h1>
             </Link>
-            <Link href="/contact" onClick={toggleMenu}>
+            <Link href="/about_us" onClick={toggleMenu}>
+              <h1 className="text-3xl font-semibold cursor-pointer">About Us</h1>
+            </Link>
+            <Link href="/contact_us" onClick={toggleMenu}>
               <h1 className="text-3xl font-semibold cursor-pointer">Contact</h1>
             </Link>
             {session && !session.isLoggedIn && (
               <Link href="/login_page" onClick={toggleMenu}>
-                <button className="bg-black text-white px-6 py-2  rounded-lg mt-4">
+                <button className="bg-black text-white px-6 py-2 rounded-lg mt-4">
                   Login
                 </button>
               </Link>
@@ -124,3 +161,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+  
