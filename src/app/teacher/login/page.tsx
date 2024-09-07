@@ -6,11 +6,11 @@ import Link from "next/link";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import SubmitButton from "@/components/Common/SubmitButton";
 import { handleError } from "@/app/utils/handleError";
 import { useDispatch, useSelector } from "react-redux";
 import { setTeacherDetails } from "@/store/slices/authSlice";
 import { RootState } from "@/store/store";
+import SubmitButton from "@/components/Common/SubmitButton";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
