@@ -13,7 +13,7 @@ const page = () => {
     <div className="p-5 md:px-10 overflow-hidden">
       <div className="flex flex-col gap-10">
         <div className="flex flex-col gap-5">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             <h1 className="text-3xl font-bold mt-4">
               All the skills you need in one place
             </h1>
@@ -48,7 +48,7 @@ const page = () => {
           ))}
         </div>
         {/* Course name big bbuttons */}
-        <div className="flex gap-5 mb-4">
+        <div className="flex gap-5 mb-4 overflow-x-scroll no-scrollbar">
           <div className="bg-black text-white px-6 py-3 rounded-full ">
             <h1 className="font-bold whitespace-nowrap">Web Development</h1>
             <p className="text-sm whitespace-nowrap">13.5k learners</p>
@@ -68,8 +68,52 @@ const page = () => {
         </div>
 
         {/* Course card section */}
-        <div className="grid md:grid-cols-4 gap-5">
-          <div className="border rounded-lg flex flex-col h-[60vh]">
+        <div className="grid md:grid-cols-4 gap-5 h-[70vh]">
+          <div className="border rounded-lg flex flex-col ">
+            <div className="h-1/2 relative">
+              <Image
+                src="/classes.jpg"
+                alt="girl"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+
+            <div className="px-4 py-2 flex flex-col gap-1">
+              <h1 className="font-bold">
+                The Complete Web Development Bootcamp
+              </h1>
+              <p className="text-sm text-slate-500">Dr Shreyas Jaiswal</p>
+              <h2 className="text-sm">4.7 (13.5k students)</h2>
+              <h3 className="font-bold">₹1,000</h3>
+              <button className=" bg-green-400 text-white px-2 py-1 w-1/4 text-xs text-center">
+                Bestseller
+              </button>
+            </div>
+          </div>
+          <div className="border rounded-lg flex flex-col h-full">
+            <div className="h-1/2 relative">
+              <Image
+                src="/girlImage.png"
+                alt="girl"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+
+            <div className="px-4 py-2 flex flex-col gap-1">
+              <h1 className="font-bold">
+                The Complete Web Development Bootcamp
+              </h1>
+              <p className="text-sm text-slate-500">Dr Shreyas Jaiswal</p>
+              <h2 className="text-sm">4.7 (13.5k students)</h2>
+              <h3 className="font-bold">₹1,000</h3>
+              <button className=" bg-green-400 text-white px-2 py-1 w-1/4 text-xs text-center">
+                Bestseller
+              </button>
+            </div>
+          </div>
+          <div className="border rounded-lg flex flex-col h-full">
             <div className="h-[50%] relative">
               <Image
                 src="/classes.jpg"
@@ -79,7 +123,7 @@ const page = () => {
               />
             </div>
 
-            <div className="h-[50%] px-4 py-2 flex flex-col gap-2">
+            <div className="px-4 py-2 flex flex-col gap-1">
               <h1 className="font-bold">
                 The Complete Web Development Bootcamp
               </h1>
@@ -91,7 +135,7 @@ const page = () => {
               </button>
             </div>
           </div>
-          <div className="border rounded-lg flex flex-col h-[60vh]">
+          <div className="border rounded-lg flex flex-col h-full">
             <div className="h-[50%] relative">
               <Image
                 src="/girlImage.png"
@@ -101,51 +145,7 @@ const page = () => {
               />
             </div>
 
-            <div className="h-[50%] px-4 py-2 flex flex-col gap-2">
-              <h1 className="font-bold">
-                The Complete Web Development Bootcamp
-              </h1>
-              <p className="text-sm text-slate-500">Dr Shreyas Jaiswal</p>
-              <h2 className="text-sm">4.7 (13.5k students)</h2>
-              <h3 className="font-bold">₹1,000</h3>
-              <button className=" bg-green-400 text-white px-2 py-1 w-1/4 text-xs text-center">
-                Bestseller
-              </button>
-            </div>
-          </div>
-          <div className="border rounded-lg flex flex-col h-[60vh]">
-            <div className="h-[50%] relative">
-              <Image
-                src="/classes.jpg"
-                alt="girl"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-
-            <div className="h-[50%] px-4 py-2 flex flex-col gap-2">
-              <h1 className="font-bold">
-                The Complete Web Development Bootcamp
-              </h1>
-              <p className="text-sm text-slate-500">Dr Shreyas Jaiswal</p>
-              <h2 className="text-sm">4.7 (13.5k students)</h2>
-              <h3 className="font-bold">₹1,000</h3>
-              <button className=" bg-green-400 text-white px-2 py-1 w-1/4 text-xs text-center">
-                Bestseller
-              </button>
-            </div>
-          </div>
-          <div className="border rounded-lg flex flex-col h-[60vh]">
-            <div className="h-[50%] relative">
-              <Image
-                src="/girlImage.png"
-                alt="girl"
-                layout="fill"
-                objectFit="cover"
-              />
-            </div>
-
-            <div className="h-[50%] px-4 py-2 flex flex-col gap-2">
+            <div className="px-4 py-2 flex flex-col gap-1">
               <h1 className="font-bold">
                 The Complete Web Development Bootcamp
               </h1>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/config/actions";
-import Teacher from "@/models/teacherModel";
+import bcryptjs from "bcryptjs";
+import User from "@/models/userModel";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,19 +15,20 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    if (!session || !session.teacher || !session.teacher.password) {
+    if (!session || !session.user || !session.user.password) {
       return NextResponse.json(
         { success: false, message: "Session not found" },
         { status: 400 }
       );
     }
 
-    const { confirmPassword, ...rest } = session.teacher;
-    const teacherData = new Teacher(rest);
-    await teacherData.save();
+    const { confirmPassword, ...rest } = session.user;
+    const userData = new User(rest);
+    console.log("iam userData", userData);
+    await userData.save();
 
     session.otp = undefined;
-    session.teacher = undefined;
+    session.user = undefined;
     await session.save();
     return NextResponse.json(
       { success: true, message: "OTP validated successfully" },

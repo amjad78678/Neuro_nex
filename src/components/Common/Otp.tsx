@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SubmitButton from "./SubmitButton";
 import { handleError } from "@/app/utils/handleError";
 
@@ -24,10 +24,16 @@ const Otp = ({
   isOpen: boolean;
   closeDialog: () => void;
 }) => {
+  const pathname = usePathname();
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [otp, setOtp] = useState(Array(6).fill(""));
   const router = useRouter();
   console.log("iam otp", otp);
+  const isStudentPath = pathname.startsWith("/student");
+  console.log(
+    "isStudentPath-------------------------------------------------",
+    isStudentPath
+  );
   const { mutate, isPending, error } = useMutation({
     mutationFn: async () => {
       try {
@@ -35,9 +41,12 @@ const Otp = ({
         if (otp.length !== 6) {
           throw new Error("Invalid OTP");
         }
-        const res = await axios.post("/api/teacher/verifyOtp", {
-          otp: Number(otp.join("")),
-        });
+        const res = await axios.post(
+          `/api/${isStudentPath ? "student" : "teacher"}/verifyOtp`,
+          {
+            otp: Number(otp.join("")),
+          }
+        );
         console.log("Axios response:", res);
         return res;
       } catch (err) {
@@ -48,7 +57,7 @@ const Otp = ({
       console.log("iam res", res);
       if (res && res.data.success) {
         console.log("Success! Navigating to login page...");
-        router.push("/teacher/login");
+        router.push(`/${isStudentPath ? "student" : "teacher"}/login`);
         closeDialog();
       }
     },
@@ -118,7 +127,7 @@ const Otp = ({
                 isPending,
                 text: "Verify",
                 texting: "Verifying...",
-                type: "button",
+                type: "submit",
                 onClick: () => mutate(),
                 className: "mt-6",
               }}

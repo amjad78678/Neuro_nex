@@ -6,8 +6,15 @@ export interface User {
   password: string;
   confirmPassword: string;
 }
+export interface Teacher {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 export interface SessionData {
   user?: User;
+  teacher?: Teacher;
   otp?: number;
   isLoggedIn?: boolean;
 }

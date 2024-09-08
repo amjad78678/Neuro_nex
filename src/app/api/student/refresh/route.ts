@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import User from "@/models/userModel";
-import Teacher from "@/models/teacherModel";
 
 export async function GET(req: NextRequest) {
   try {
@@ -26,8 +25,8 @@ export async function GET(req: NextRequest) {
           );
         }
 
-        const teacher = await Teacher.findById(decoded.userId);
-        if (!teacher || teacher.refreshToken !== refreshToken) {
+        const user = await User.findById(decoded.userId);
+        if (!user || user.refreshToken !== refreshToken) {
           return NextResponse.json(
             { message: "Invalid refresh token" },
             { status: 403 }
@@ -35,19 +34,19 @@ export async function GET(req: NextRequest) {
         }
 
         const accessToken = jwt.sign(
-          { userId: teacher.id, email: teacher.email },
+          { userId: user.id, email: user.email },
           process.env.ACCESS_TOKEN_SECRET!,
           { expiresIn: "15m" }
         );
 
         const newRefreshToken = jwt.sign(
-          { userId: teacher.id },
+          { userId: user.id },
           process.env.REFRESH_TOKEN_SECRET!,
           { expiresIn: "30d" }
         );
 
-        teacher.refreshToken = newRefreshToken;
-        await teacher.save();
+        user.refreshToken = newRefreshToken;
+        await user.save();
 
         const response = NextResponse.json({ accessToken });
         response.cookies.set("refreshToken", newRefreshToken, {

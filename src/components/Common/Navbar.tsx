@@ -2,16 +2,31 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaLinkedin,
+} from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { RiMenu2Fill } from "react-icons/ri";
 import { motion } from "framer-motion";
 import { getSession } from "@/config/actions";
 import { SessionData } from "@/config/sessionConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import SubmitButton from "./SubmitButton";
+import { useMutation } from "@tanstack/react-query";
+import getAxiosInstance from "@/app/utils/axiosInstance";
+import { removeStudentDetails } from "@/store/slices/authSlice";
+import { handleError } from "@/app/utils/handleError";
+
+const axiosInstance = getAxiosInstance("student")
 
 const Navbar = () => {
   const [session, setSession] = useState<SessionData | null>(null);
-  const [activeNavItem, setActiveNavItem] = useState<string>("home"); // Track active nav item
+  const [activeNavItem, setActiveNavItem] = useState<string>("home");
+  const { studentDetails } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -22,6 +37,7 @@ const Navbar = () => {
   }, []);
 
   const router = useRouter();
+  const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -32,6 +48,34 @@ const Navbar = () => {
     setActiveNavItem(item);
     router.push(route);
   };
+  const { isPending, mutate } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: async () => {
+      try {
+        const res = await axiosInstance.post("/logout");
+        return res;
+      } catch (err) {
+        console.log("iam err", err);
+        throw err;
+      }
+    },
+    onSuccess: (response) => {
+      console.log("iam res", response);
+      if (response.data.success) {
+        dispatch(removeStudentDetails());
+        router.refresh();
+      }
+    },
+    onError: (err) => {
+      handleError(err);
+    },
+  });
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div>
@@ -55,7 +99,9 @@ const Navbar = () => {
           <div className="hidden md:flex gap-4 items-center">
             <div className="relative">
               <h1
-                className={`font-semibold cursor-pointer ${activeNavItem === "home" ? "text-black" : "text-gray-500"}`}
+                className={`font-semibold cursor-pointer ${
+                  activeNavItem === "home" ? "text-black" : "text-gray-500"
+                }`}
                 onClick={() => handleNavClick("home", "/")}
               >
                 Home
@@ -66,7 +112,9 @@ const Navbar = () => {
             </div>
             <div className="relative">
               <h1
-                className={`font-semibold cursor-pointer ${activeNavItem === "courses" ? "text-black" : "text-gray-500"}`}
+                className={`font-semibold cursor-pointer ${
+                  activeNavItem === "courses" ? "text-black" : "text-gray-500"
+                }`}
                 onClick={() => handleNavClick("courses", "/courses")}
               >
                 Courses
@@ -77,7 +125,9 @@ const Navbar = () => {
             </div>
             <div className="relative">
               <h1
-                className={`font-semibold cursor-pointer ${activeNavItem === "about" ? "text-black" : "text-gray-500"}`}
+                className={`font-semibold cursor-pointer ${
+                  activeNavItem === "about" ? "text-black" : "text-gray-500"
+                }`}
                 onClick={() => handleNavClick("about", "/about_us")}
               >
                 About Us
@@ -88,7 +138,9 @@ const Navbar = () => {
             </div>
             <div className="relative">
               <h1
-                className={`font-semibold cursor-pointer ${activeNavItem === "contact" ? "text-black" : "text-gray-500"}`}
+                className={`font-semibold cursor-pointer ${
+                  activeNavItem === "contact" ? "text-black" : "text-gray-500"
+                }`}
                 onClick={() => handleNavClick("contact", "/contact_us")}
               >
                 Contact
@@ -101,11 +153,21 @@ const Navbar = () => {
 
           {/* Login Button */}
           <div className="hidden md:block my-auto">
-            <Link href="/login_page">
+            {isMounted && studentDetails ? (
+                  <SubmitButton
+                  isPending={isPending}
+                  text="Logout"
+                  texting="Logging out..."
+                  onClick={() => mutate()}
+                />
+            ):(
+              <Link href="/login_page">
               <button className="bg-black text-white px-5 py-2 rounded-lg">
                 Login
               </button>
             </Link>
+            )}
+        
           </div>
 
           {/* Mobile Menu Icon */}
@@ -141,7 +203,9 @@ const Navbar = () => {
               <h1 className="text-3xl font-semibold cursor-pointer">Courses</h1>
             </Link>
             <Link href="/about_us" onClick={toggleMenu}>
-              <h1 className="text-3xl font-semibold cursor-pointer">About Us</h1>
+              <h1 className="text-3xl font-semibold cursor-pointer">
+                About Us
+              </h1>
             </Link>
             <Link href="/contact_us" onClick={toggleMenu}>
               <h1 className="text-3xl font-semibold cursor-pointer">Contact</h1>
@@ -161,4 +225,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-  

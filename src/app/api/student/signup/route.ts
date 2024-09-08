@@ -1,7 +1,7 @@
 import connectDb from "@/config/connectDb";
 connectDb();
 import { getSession } from "@/config/actions";
-import Teacher from "@/models/teacherModel";
+import User from "@/models/userModel";
 import EmailService from "@/services/emailService";
 import GenerateOtp from "@/services/generateOtp";
 import { NextRequest, NextResponse } from "next/server";
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log("iam body------------", body);
 
-    const existUser = await Teacher.findOne({ email: body.email });
+    const existUser = await User.findOne({ email: body.email });
     if (existUser) {
       return NextResponse.json(
         { success: false, message: "User already exist" },
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     // Use session to store OTP and email
     const session = await getSession();
     session.otp = otp;
-    session.teacher = body;
+    session.user = body;
     await session.save();
 
     setTimeout(async () => {
